@@ -1,0 +1,3 @@
+for create service folder : nest g service cats
+for create module in service folder : nest g service cats
+for create controller in service folder: nest g controller folderName
