@@ -3,17 +3,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
-import { CatsService } from './cats/cats.service';
-import { CatsModule } from './cats/cats.module';
-import { \[cats\]Module } from './[cats/]/[cats/].module';
-import { MahmudService } from './mahmud/mahmud.service';
-import { MahmudController } from './mahmud/mahmud.controller';
 import { MahmudModule } from './mahmud/mahmud.module';
-import { MahmudService } from './mahmud/mahmud.service';
+import { MahmudController } from './mahmud/mahmud.controller';
+import { BookingModule } from './booking/booking.module';
+import { BookingsModule } from './bookings/bookings.module';
 
 @Module({
-  imports: [AuthModule, CatsModule, \[cats\]Module, MahmudModule],
+  imports: [AuthModule, MahmudModule, BookingModule, BookingsModule],
   controllers: [AppController, AuthController, MahmudController],
-  providers: [AppService, CatsService, MahmudService],
+  providers: [AppService],
 })
 export class AppModule {}
