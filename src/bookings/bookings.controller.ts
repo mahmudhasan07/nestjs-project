@@ -17,7 +17,11 @@ export class BookingsController {
 
   @Post()
   create(@Body() createBookingDto: CreateBookingDto) {
-    return this.bookingsService.create(createBookingDto);
+    const res = this.bookingsService.create(createBookingDto);
+    return {
+      message: 'Success',
+      data: res,
+    };
   }
 
   @Get()
