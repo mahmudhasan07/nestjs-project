@@ -1,0 +1,25 @@
+model User {
+    id         String    @id @default(cuid())
+    name       String
+    email      String
+    password   String
+    role       String
+    fcmToken   String?
+    isVerified Boolean   @default(false)
+    attempts   Int       @default(0)
+    lockUntil  DateTime? // add this
+    createdAt  DateTime  @default(now())
+    updatedAt  DateTime
+}
+
+enum Role {
+    ADMIN
+    BUYER
+    SELLER
+}
+
+enum Status {
+    PENDING
+    ACTIVE
+    BLOCKED
+}
