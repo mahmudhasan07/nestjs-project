@@ -1,35 +1,35 @@
-import {
-  ArgumentMetadata,
-  BadRequestException,
-  Injectable,
-  PipeTransform,
-} from '@nestjs/common';
-import { ZodError } from 'zod';
-import type { ZodSchema } from 'zod';
+import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
+import type { ZodIssue, ZodType } from 'zod';
+
+type ZodValidationError = {
+  path: string;
+  message: string;
+};
 
 @Injectable()
-export class ZodValidationPipe implements PipeTransform {
-  constructor(private readonly schema: ZodSchema<any>) {}
+export class ZodValidationPipe<T = unknown> implements PipeTransform<
+  unknown,
+  Promise<T>
+> {
+  constructor(private readonly schema: ZodType<T>) {}
 
-  async transform(value: unknown, metadata: ArgumentMetadata) {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      const parsedData = await this.schema.parseAsync(value);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return parsedData;
-    } catch (error: unknown) {
-      if (error instanceof ZodError) {
-        throw new BadRequestException({
-          success: false,
-          message: 'Validation failed',
-          errors: (error as ZodError).issues.map((issue) => ({
-            path: issue.path.join('.'),
-            message: issue.message,
-          })),
-        });
-      }
+  async transform(value: unknown): Promise<T> {
+    const result = await this.schema.safeParseAsync(value);
 
-      throw error;
+    if (!result.success) {
+      const errors: ZodValidationError[] = result.error.issues.map(
+        (issue: ZodIssue) => ({
+          path: issue.path.join('.'),
+          message: issue.message,
+        }),
+      );
+
+      throw new BadRequestException({
+        success: false,
+        message: 'Validation failed',
+        errors,
+      });
     }
+    return result.data;
   }
 }
