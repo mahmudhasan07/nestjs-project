@@ -5,7 +5,7 @@ import { CreateBookingDto } from '../booking/dto/create-booking.dto';
 import { createBookingSchema } from './dto/create-user.dto';
 import { ZodValidationPipe } from '../../common/pipes/zodValidationPipe';
 
-@Controller()
+@Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
   @MessagePattern('create-user')
