@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { Controller } from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { BookingService } from './booking.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
@@ -10,6 +10,7 @@ export class BookingController {
   constructor(private readonly bookingService: BookingService) {}
 
   @MessagePattern('createBooking')
+  @UseGuards()
   create(@Payload() createBookingDto: CreateBookingDto): any {
     return this.bookingService.create(createBookingDto);
   }
@@ -26,10 +27,7 @@ export class BookingController {
 
   @MessagePattern('updateBooking')
   update(@Payload() updateBookingDto: UpdateBookingDto): any {
-    return this.bookingService.update(
-      updateBookingDto.id as number,
-      updateBookingDto,
-    );
+    return this.bookingService.update(updateBookingDto.id, updateBookingDto);
   }
 
   @MessagePattern('removeBooking')

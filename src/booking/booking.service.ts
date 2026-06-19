@@ -9,6 +9,8 @@ export class BookingService {
   }
 
   findAll() {
+    const result = [{ id: 1 }];
+    return result;
     return `This action returns all booking`;
   }
 
