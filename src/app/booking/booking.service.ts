@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingDto } from './dto/update-booking.dto';
+import { prisma } from '../../common/prisma/prisma';
 
 @Injectable()
 export class BookingService {
@@ -8,10 +9,9 @@ export class BookingService {
     return 'This action adds a new booking';
   }
 
-  findAll() {
-    const result = [{ id: 1 }];
+  async findAll() {
+    const result = await prisma.
     return result;
-    return `This action returns all booking`;
   }
 
   findOne(id: number) {
