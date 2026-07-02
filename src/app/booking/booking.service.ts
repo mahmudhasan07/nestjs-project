@@ -10,8 +10,8 @@ export class BookingService {
   }
 
   async findAll() {
-    const result = await prisma.
-    return result;
+  // const result = await prisma.
+    // return result;
   }
 
   findOne(id: number) {
